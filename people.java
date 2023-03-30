@@ -11,22 +11,33 @@ public class people {
     String pass = "Password1234.";
     String dniQ = "select nombre, apellidos, telefono from people where dni = ";
 
-    System.out.println("Introduzca el DNI del usuario que quiere ver");
+    System.out.println("Inserta los datos de un nuevo usuario");
+    System.out.print("dni: ");
     String dni = sc.nextLine();
+    System.out.print("nombre: ");
+    String nombre = sc.nextLine();
+    System.out.println("apellidos: ");
+    String apellidos = sc.nextLine();
+    System.out.println("telefono: ");
+    int tlf = sc.nextInt();
+    sc.nextLine();
+
+    String insert = "insert into people values ('" + dni + "', '" + nombre + "','" + apellidos + "','" + tlf + "' )";
 
     dniQ += "'" + dni + "'";
     try {
       connection = DriverManager.getConnection(url, user, pass);
       System.out.println("Connection success.");
       Statement st = connection.createStatement();
-      ResultSet rs;
-      rs = st.executeQuery(dniQ);
-      rs.next();
-      System.out.println(rs.getString("apellidos"));
+
+      st.executeUpdate(insert);
+
       connection.close();
       System.out.println("Connection closed.");
     } catch (SQLException sqle) {
       System.out.println(sqle.getMessage());
     }
+
+    sc.close();
   }
 }
